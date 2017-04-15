@@ -23,13 +23,32 @@ describe('Updating records', () => {
   }
 
   it('instance type using set and save', (done) => {
-    // console.log(rohit);
     rohit.set('name', 'Jain');
-    // console.log(rohit);
     assertName(rohit.save(), done);
   });
 
   it('A model instance can update', (done) => {
     assertName(rohit.update({ name: 'Jain' }), done);
+  });
+
+  it('A model class can update', (done) => {
+    assertName(
+      User.update({ name: 'Rohit' }, { name: 'Jain' }),
+      done
+    );
+  });
+
+  it('A model class can update one record', (done) => {
+    assertName(
+      User.findOneAndUpdate({ name: 'Rohit' }, { name: 'Jain' }),
+      done
+    );
+  });
+
+  it('A model class can find a record with Id and update', (done) => {
+    assertName(
+      User.findByIdAndUpdate(rohit._id, { name: 'Jain' }),
+      done
+    );
   });
 });
