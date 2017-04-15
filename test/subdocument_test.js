@@ -34,4 +34,25 @@ describe('Sub documents', () => {
         done();
       });
   });
+
+  it('can remove an existing subdocuments', (done) => {
+    const rohit = new User({
+      name: 'Rohit',
+      posts: [{ title: 'New Title' }]
+    });
+
+    rohit.save()
+      .then(() => User.findOne({ name: 'Rohit' }))
+      .then((user) => {
+        // It will not save record to database automatically.
+        // It just remove subdocument data here only.
+        user.posts[0].remove();
+        return user.save();
+      })
+      .then(() => User.findOne({ name: 'Rohit' }))
+      .then((user) => {
+        assert(user.posts.length === 0);
+        done();
+      });
+  });
 });
