@@ -12,7 +12,11 @@ const UserSchema = new Schema({
     required: [true, 'Name is required.']
   },
   postCount: Number,
-  posts: [PostSchema]
+  posts: [PostSchema],
+  blogPosts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'blogpost'
+  }]
 });
 
 // Add virtual type to user schema

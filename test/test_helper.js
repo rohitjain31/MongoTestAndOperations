@@ -14,9 +14,16 @@ before((done) => {
 
 
 // Executed befor each and every test case
+// we cannot drop multiple collection in mongo at same time so sequential approach
+// MongoDB normalizes each collection name by lower casing entire collection name
+// So blogPost -> blogposts
 beforeEach((done) => {
-  mongoose.connection.collections.users.drop(() => {
-    // Ready to run next test!
-    done();
+  const { users, comments, blogposts } = mongoose.connection.collections;
+  users.drop(() => {
+    comments.drop(() => {
+      blogposts.drop(() => {
+        done();
+      });
+    });
   });
 })
