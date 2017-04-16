@@ -15,6 +15,12 @@ const UserSchema = new Schema({
   posts: [PostSchema]
 });
 
+// Add virtual type to user schema
+UserSchema.virtual('postLength').get(function() {
+  // here this will refer to instance of the model
+  return this.posts.length;
+});
+
 const User = mongoose.model('user', UserSchema);
 
 module.exports = User;
