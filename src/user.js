@@ -25,6 +25,13 @@ UserSchema.virtual('postLength').get(function() {
   return this.posts.length;
 });
 
+// This function will execute before remove event
+UserSchema.pre('remove', function(next) {
+  const BlogPost = mongoose.model('blogpost');
+  BlogPost.remove({ _id: { $in: this.blogPosts } })
+    .then(() => next());
+});
+
 const User = mongoose.model('user', UserSchema);
 
 module.exports = User;
